@@ -26,20 +26,20 @@
                         <div class="dropdown float-left">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Films
+                                Actors
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item disabled" href="#">Films</a>
-                                <a class="dropdown-item" href="./actor.html">Actors</a>
+                                <a class="dropdown-item" href="./index.html">Films</a>
+                                <a class="dropdown-item disabled" href="#">Actors</a>
                             </div>
                         </div>
-                        Films List from Sakila
+                        Actors List from Sakila
                     </h3>
                     <div class="card-header">
-                        <button type="button" id="btnLoadFilms" class="btn btn-lg btn-outline-info mr-3">
+                        <button type="button" id="btnLoadActors" class="btn btn-lg btn-outline-info mr-3">
                             <i class="fa fa-refresh mr-2" aria-hidden="true"></i>Load
                         </button>
-                        <button type="button" id="btnNewFilms" class="btn btn-lg btn-outline-primary mr-3"
+                        <button type="button" id="btnNewActors" class="btn btn-lg btn-outline-primary mr-3"
                             data-toggle="modal" data-target="#newPopup">
                             <i class="fa fa-plus mr-2"></i>New
                         </button>
@@ -47,7 +47,7 @@
                             <i class="fa fa-pencil-square-o"></i>
                         </button> -->
 
-                        <button type="button" id="btnDeleteFilms"
+                        <button type="button" id="btnDeleteActors"
                             class="btn btn-lg btn-outline-danger mr-3 float-right">
                             <i class="fa fa-times mr-2"></i>Delete
                         </button>
@@ -57,16 +57,12 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" name="select_all" value="0" id="example-select-all"></th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Release Year</th>
-                                    <th scope="col">Language</th>
-                                    <th scope="col">Rating</th>
-                                    <th scope="col">Special Features</th>
-                                    <th scope="col">Replacement Cost</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
-                            <tbody id='film_container'>
+                            <tbody id='actor_container'>
                             </tbody>
                         </table>
                     </div>
@@ -84,7 +80,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">New Film</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Actor</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -92,48 +88,20 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="title" class="col-form-label">Title:</label>
-                            <input type="text" required="required" placeholder="Film Name" class="form-control"
-                                id="title">
+                            <label for="first_name" class="col-form-label">First Name:</label>
+                            <input type="text" required="required" placeholder="Anh" class="form-control"
+                                id="first_name">
                         </div>
                         <div class="form-group">
-                            <label for="release_year" class="col-form-label">Release Year:</label>
-                            <input type="number" required="required" placeholder="2001" class="form-control"
-                                id="release_year">
-                        </div>
-                        <div class="form-group">
-                            <label for="language" class="col-form-label">Language:</label>
-                            <select name="language" id="language">
-                                <option selected="selected" value=1>English</option>
-                                <option value=2>Vietnamese</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="rating" class="col-form-label">Rating:</label>
-                            <!-- <input type="text" class="form-control" id="rating"> -->
-                            <select name="rating" id="rating">
-                                <option selected="selected" value="G">G</option>
-                                <option value="PG">PG</option>
-                                <option value="PG-13">PG-13</option>
-                                <option value="R">R</option>
-                                <option value="NC-17">NC-17</option>
-                            </select>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="special_feature" class="col-form-label">Special Features:</label>
-                            <input type="text" class="form-control" id="special_features">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="replacement_cost" class="col-form-label">Replacement Cost:</label>
-                            <input type="number" placeholder="1.99" class="form-control" id="replacement_cost">
+                            <label for="last_name" class="col-form-label">Last Name:</label>
+                            <input type="text" required="required" placeholder="Le Doan Cong" class="form-control"
+                                id="last_name">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnAddFilm" class="btn btn-primary">Add</button>
+                    <button type="button" id="btnAddActor" class="btn btn-primary">Add</button>
                 </div>
             </div>
         </div>
@@ -167,7 +135,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalEditFilm">Edit Film</h5>
+                    <h5 class="modal-title" id="exampleModalEditFilm">Edit Actor</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -179,49 +147,23 @@
                             <input type="text" required="required" placeholder="Film Name" class="form-control"
                                 id="id_edit">
                         </div>
-                        <div class="form-group">
-                            <label for="title_edit" class="col-form-label">Title:</label>
-                            <input type="text" required="required" placeholder="Film Name" class="form-control"
-                                id="title_edit">
-                        </div>
-                        <div class="form-group">
-                            <label for="release_year_edit" class="col-form-label">Release Year:</label>
-                            <input type="number" required="required" placeholder="2001" class="form-control"
-                                id="release_year_edit">
-                        </div>
-                        <div class="form-group">
-                            <label for="language_edit" class="col-form-label">Language:</label>
-                            <select name="language_edit" id="language_edit">
-                                <option selected="selected" value=1>English</option>
-                                <option value=2>Vietnamese</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="rating_edit" class="col-form-label">Rating:</label>
-                            <!-- <input type="text" class="form-control" id="rating"> -->
-                            <select name="rating_edit" id="rating_edit">
-                                <option selected="selected" value="G">G</option>
-                                <option value="PG">PG</option>
-                                <option value="PG-13">PG-13</option>
-                                <option value="R">R</option>
-                                <option value="NC-17">NC-17</option>
-                            </select>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="special_features_edit" class="col-form-label">Special Features:</label>
-                            <input type="text" class="form-control" id="special_features_edit">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="replacement_cost_edit" class="col-form-label">Replacement Cost:</label>
-                            <input type="number" placeholder="1.99" class="form-control" id="replacement_cost_edit">
-                        </div>
+                        <form>
+                            <div class="form-group">
+                                <label for="first_name_edit" class="col-form-label">First Name:</label>
+                                <input type="text" required="required" placeholder="Anh" class="form-control"
+                                    id="first_name_edit">
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name_edit" class="col-form-label">Last Name:</label>
+                                <input type="text" required="required" placeholder="Le Doan Cong" class="form-control"
+                                    id="last_name_edit">
+                            </div>
+                        </form>
                     </form>
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnUpdateFilm" class="btn btn-success">Save changes</button>
+                    <button type="button" id="btnUpdateActor" class="btn btn-success">Save changes</button>
                 </div>
             </div>
         </div>
@@ -234,7 +176,7 @@
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.24/af-2.3.5/b-1.7.0/cr-1.5.3/date-1.0.3/fc-3.3.2/fh-3.1.8/kt-2.6.1/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.3/datatables.min.js"></script>
 
-    <script type="text/javascript" src="./js/films.js"></script>
+    <script type="text/javascript" src="./js/actors.js"></script>
 
 </body>
 
