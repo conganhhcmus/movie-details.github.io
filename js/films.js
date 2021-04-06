@@ -141,10 +141,27 @@ $("#btnDeleteFilms").on("click", function () {
     });
 
     console.log(deleteIds);
-    for (const id of deleteIds) {
+    if (deleteIds.length == 1) {
         $.ajax({
             type: "delete",
-            url: `https://api-sakila.herokuapp.com/api/films/${id}`,
+            url: `https://api-sakila.herokuapp.com/api/films/${deleteIds[0]}`,
+        }).done(function (data) {
+            Swal.fire({
+                // position: 'top-end',
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            $("#btnLoadFilms").click();
+        });
+    } else if (deleteIds.length > 1) {
+        $.ajax({
+            type: "delete",
+            url: `https://api-sakila.herokuapp.com/api/films/`,
+            data: JSON.stringify({ id: deleteIds }),
+            dataType: "json",
+            contentType: "application/json",
         }).done(function (data) {
             Swal.fire({
                 // position: 'top-end',
@@ -208,3 +225,4 @@ $("#btnUpdateFilm").on("click", function () {
         });
     }
 });
+
