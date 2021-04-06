@@ -33,9 +33,10 @@
                             data-toggle="modal" data-target="#newPopup">
                             <i class="fa fa-plus mr-2"></i>New
                         </button>
-                        <!-- <button type="button" id="btnEditFilms" class="btn btn-lg btn-outline-primary mr-3">
-                            <i class="fa fa-pencil-square-o mr-2"></i>Edit
+                        <!-- <button type="button" id="btnEditFilms" class="btn btn-lg btn-outline-primary">
+                            <i class="fa fa-pencil-square-o"></i>
                         </button> -->
+
                         <button type="button" id="btnDeleteFilms"
                             class="btn btn-lg btn-outline-danger mr-3 float-right">
                             <i class="fa fa-times mr-2"></i>Delete
@@ -52,6 +53,7 @@
                                     <th scope="col">Rating</th>
                                     <th scope="col">Special Features</th>
                                     <th scope="col">Replacement Cost</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody id='film_container'>
@@ -127,6 +129,29 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="loadingPopup" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLoading">Loading</h5>
+                    <button hidden=true type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        id='closeLoading'>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
@@ -144,19 +169,28 @@
                     orderable: false,
                     targets: 0,
 
+                }, {
+                    orderable: false,
+                    targets: 7,
+
                 }],
                 order: [[1, 'asc']]
             }
-        );;
+        );
+
+
+        var search = $('.dataTables_filter input').val();
         //Load ajax
         $('#btnLoadFilms').on('click', function () {
+            search = $('.dataTables_filter input').val();
+            $('#loadingPopup').modal('show');
             $.ajax({
                 type: "get",
                 url: "https://api-sakila.herokuapp.com/api/films"
             }).done(function (data) {
-                // console.log(data);
-                $('#film_container').empty();
+                setTimeout(function () { $("#loadingPopup").modal("hide"); }, 500);
                 table.destroy();
+                $('#film_container').empty();
                 for (const f of data) {
                     const tr = `<tr>
                                     <td><input type="checkbox" name="id[]" value="${f.film_id}"></td>
@@ -166,6 +200,11 @@
                                     <td>${f.rating}</td>
                                     <td>${f.special_features}</td>
                                     <td>${f.replacement_cost}</td>
+                                    <td><button type="button" onclick="editFilm(${f.film_id})""
+                                            class="btn btn-sm btn-outline-secondary">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </button>
+                                    </td>
                                 </tr>`;
                     $('#film_container').append(tr);
                 }
@@ -177,12 +216,16 @@
                             orderable: false,
                             targets: 0,
 
+                        }, {
+                            orderable: false,
+                            targets: 7,
+
                         }],
                         order: [[1, 'asc']]
                     }
                 );
 
-
+                table.search(search).draw();
                 // Handle click on "Select all" control
                 $('#example-select-all').on('click', function () {
                     // Get all rows with search applied
@@ -210,6 +253,7 @@
 
         // New ajax
         $('#btnAddFilm').on('click', function () {
+            search = $('.dataTables_filter input').val();
             const dataPost = {
                 title: $('#title').val(),
                 release_year: +$('#release_year').val(),
@@ -246,7 +290,7 @@
 
         $("#btnDeleteFilms").on('click', function () {
             var deleteIds = [];
-
+            search = $('.dataTables_filter input').val();
             var rows = table.rows({ 'search': 'applied' }).nodes();
             // Check/uncheck checkboxes for all rows in the table
             $('input[type="checkbox"]', rows).each(function () {
@@ -258,17 +302,29 @@
             })
 
             console.log(deleteIds);
+            for (const id of deleteIds) {
+                $.ajax({
+                    type: "delete",
+                    url: `https://api-sakila.herokuapp.com/api/films/${id}`,
+                }).done(function (data) {
+                    Swal.fire({
+                        // position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    $('#btnLoadFilms').click();
+                });
+            }
 
         })
 
-
-
-
-
-
+        function editFilm(id) {
+            console.log(id);
+        }
 
     </script>
-
 
 </body>
 
